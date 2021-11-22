@@ -1,32 +1,121 @@
-# Prerequisites
-*.d
+#include <iostream> 
+#include <string>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+using namespace std;
 
-# Precompiled Headers
-*.gch
-*.pch
+// 11)	Гостиница. Обязательные сущности: постоялец, номер, бронь.
+// 
+// Обязательно наличие конструктора копирования и 
+// оператора присваивания хотя бы в одном классе
+//
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+class date { // дата 
+private:
+		int day; // день
+		int month; // месяц 
+		int year; // год
+public: 
+    date(int d, int m, int y) {
+		if ((d > 0)&&(d<32))
+			day = d;
+		else {
+			cout << "incorrect day";
+			day = 1;
+		}
+		if ((m>0)&&(m<13))
+			month = m;
+		else {
+			cout << "incorrect month";
+				month = 1;
+		}
+		if ((y>1800)&&(y<2200))
+			year = y;
+		else {
+			cout << "incorrect year";
+				year = 1111;
+		}
+	}
 
-# Fortran module files
-*.mod
-*.smod
+	// перегрузка оператора присваивания
+	date &operator= (const date d)
+	{
+		day = d.day;
+		month = d.month;
+		year = d.year;
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+		return *this;
+	}
 
-# Executables
-*.exe
-*.out
-*.app
+	// конструктор копирования
+	date(const date& d) {
+		day = d.day;
+		month = d.month;
+		year = d.year;
+	}
+
+
+	// печать
+	void print() {
+		if (day < 10) cout << "0";
+		cout << day << ".";
+		if (month < 10) cout << "0";
+		cout << month << "." << year << "\n";
+	}
+
+	};
+
+// сведения о постояльце
+class person {
+private: 
+	string FIO; // ФИО
+	date birth; // дата рождения
+public:
+	void setPerson(string fio, date b) {
+		FIO = fio;
+		birth = b;
+	}
+};
+
+//сведения о номерах гостиницы
+class room {
+private:
+	int number; // номер комнаты
+	int price; // цена номера
+public:
+	void setRoom(int n, int p) {
+		if (n>0)
+			number = n;
+		else cout << "incorrect number";
+		if (p>0) 
+			price = p;
+		else cout << "incorrect price";
+	}
+};
+
+// бронь
+class reservation {
+private:
+	person quest; // сведения о постояльце
+	room residence; // сведения о занятом им номере
+	date arrival; // дата заселения
+	date exit; // дата выезда из гостиницы
+public:
+	void setReservation(person q, room r, date d1, date d2) {
+		quest = q;
+		residence = r;
+		arrival = d1;
+		exit = d2;
+	}
+
+};
+
+int main() {
+	date a(3, 1, 2000);
+	date b(a);
+	a.print(); 
+	b.print();
+	a = b;
+	cout << "-------------\n";
+	a.print();
+	b.print();
+}
