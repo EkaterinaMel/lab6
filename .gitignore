@@ -80,7 +80,6 @@ public:
 		cout << FIO << " ";
 		birth.print();
 	}
-	friend class VIP_person; // дружественный VIP персона
 	template <typename T>
 	friend class employee; // дружественный шаблон работник
 };
